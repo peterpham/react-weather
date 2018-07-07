@@ -15,6 +15,9 @@ export class Weather extends React.Component {
             , "icon":""
             , "daynight": ""
         };
+    }
+    
+    componentDidMount(){
         this.getCurrentWeather();
     }
 
@@ -54,10 +57,10 @@ export class Weather extends React.Component {
     }
 
     render(){
-        if (this.state.status === 'error') 
-            return (
-                <div class="weather-card error">Unable to get current weather</div>
-            );
+        if (this.state.status === 'unknown')
+            return <div class="weather-card">Loading...</div>;
+        else if (this.state.status === 'error') 
+            return <div class="weather-card error">Unable to get current weather</div>;
         else    
             return (
                 <div className={"weather-card " + this.state.daynight}>
