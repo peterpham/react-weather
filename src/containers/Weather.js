@@ -66,6 +66,7 @@ export class Weather extends React.Component {
                 <div className={"weather-card " + this.state.daynight}>
                     <i title={this.state.main} class={this.state.icon}></i>
                     {this.state.description}
+                    <span>{this.props.city}</span>
                 </div>
             )
     }
