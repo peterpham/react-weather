@@ -1,0 +1,46 @@
+html {
+  height: 100%; }
+
+body {
+  font-weight: 400;
+  font-size: 1em;
+  text-align: center;
+  font-family: 'Lato', 'Avenir Next', Arial, sans-serif;
+  color: #8a8c7e;
+  height: 100%; }
+
+#app {
+  width: 100%;
+  height: 100%; }
+
+.weather-card {
+  font-size: 20vh;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .weather-card span {
+    color: white;
+    font-size: 10vh; }
+  .weather-card i.wi {
+    font-size: 40vh;
+    display: block; }
+  .weather-card.night {
+    background: #4b79a1;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #4b79a1, #283e51);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #4b79a1, #283e51); }
+  .weather-card.day {
+    background: #83a4d4;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #b6fbff, #83a4d4);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #b6fbff, #83a4d4);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+  .weather-card.error {
+    background: #870021;
+    color: white;
+    font-size: 10vh; }

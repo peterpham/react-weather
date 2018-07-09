@@ -1,7 +1,12 @@
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var parentDir = path.join(__dirname, '../');
+const parentDir = path.join(__dirname, '../');
+const bundleExtractPlugin = new ExtractTextPlugin({
+    filename: './bundle.css',
+    allChunks: true
+});
 
 module.exports = {
     entry: [
@@ -14,11 +19,13 @@ module.exports = {
                 use: 'babel-loader' 
             },
             { 
-                test: /\.less$/, 
-                use: [
-                    {loader: "style-loader"}, 
-                    {loader: "less-loader"}
-                ] 
+                test: /\.scss$/,
+                exclude: [/node_modules/],
+                use: bundleExtractPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'sass-loader'],
+                    publicPath: '/dist'
+                })
             }
         ]
     },
@@ -30,5 +37,8 @@ module.exports = {
     devServer: {
         contentBase: parentDir,
         historyApiFallback: true
-    }
+    },
+    plugins: [
+        bundleExtractPlugin
+    ]
 }
