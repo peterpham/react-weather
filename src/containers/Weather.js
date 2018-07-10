@@ -17,29 +17,22 @@ export class Weather extends React.Component {
         };
     }
     
+    // componentDidMount is called when React render
     componentDidMount(){
         this.getCurrentWeather();
     }
 
-    getCurrentWeather(){
-        axios.get(`${OPEN_WEATHER_MAP_API_ENDPOINT}/weather?q=${this.props.city},${this.props.countrycode}&appid=${OPEN_WEATHER_MAP_API_KEY}`)
+    // componentWillReceiveProps is called when props are about to change (but not yet changed)
+    componentWillReceiveProps(nextProps){
+        this.getCurrentWeather(nextProps.city);
+    }
+
+    getCurrentWeather(city = this.props.city){
+        axios.get(`${OPEN_WEATHER_MAP_API_ENDPOINT}/weather?q=${city.name},${city.country}&appid=${OPEN_WEATHER_MAP_API_KEY}`)
             .then(res => {
                 let weather = res.data.weather[0];
-
-                const date = new Date();
-                const sunrise = new Date(res.data.sys.sunrise * 1000); //Convert a Unix timestamp to time
-                const sunset = new Date(res.data.sys.sunset * 1000);
-                let icon = "";
-                let daynight = "";
-                /* Get suitable icon for weather */
-                if (date.getHours() >= sunrise.getHours() && date.getHours() < sunset.getHours()) {
-                    icon = `wi wi-owm-day-${weather.id}`;
-                    daynight = "day";
-                }
-                else if (date.getHours() >= sunset.getHours()) {
-                    icon = `wi wi-owm-night-${weather.id}`;
-                    daynight = "night";
-                }
+                let daynight = res.data.dt > res.data.sys.sunrise && res.data.dt < res.data.sys.sunset ? "day" : "night";
+                let icon = `wi wi-owm-${daynight}-${weather.id}`;
 
                 this.setState({
                     "status": "success"
@@ -66,10 +59,15 @@ export class Weather extends React.Component {
                 <div className={"weather-card " + this.state.daynight}>
                     <i title={this.state.main} class={this.state.icon}></i>
                     {this.state.description}
-                    <span>{this.props.city}</span>
+                    <span>{this.props.city.name}, {this.props.city.country}</span>
                 </div>
             )
     }
 }
 
-Weather.defaultProps = {"city": "Sydney", "countrycode": "au"};
+Weather.defaultProps = {
+    "city": {
+        "name": "Sydney"
+        , "country": "AU"
+    }
+};
