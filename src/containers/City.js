@@ -21,7 +21,7 @@ export class City extends React.Component {
     }
 
     getCities(){
-        axios.get('/data/city.list.min.json')
+        axios.get('data/city.list.min.json')
             .then(res => {
                 this.setState({
                     "status":"success"
